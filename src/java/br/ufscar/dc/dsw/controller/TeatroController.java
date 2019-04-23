@@ -5,8 +5,11 @@
  */
 package br.ufscar.dc.dsw.controller;
 
+import br.ufscar.dc.dsw.dao.TeatroDAO;
+import br.ufscar.dc.dsw.model.Teatro;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,70 +22,96 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "TeatroController", urlPatterns = {"/TeatroController"})
 public class TeatroController extends HttpServlet {
+private TeatroDAO dao = new TeatroDAO();
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TeatroController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TeatroController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
+@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getServletPath();
+        switch(action){
+            case "/cadastrarTeatro":
+                apresentaForm(request,response);
+                break;
+            case "/editarTeatro":
+                apresentaFormEdicao(request,response);
+                break;
+            case "/inserirTeatro":
+                insere(request,response);
+                break;
+            case "/removerTeatro":
+                remove(request,response);
+                break;
+            case "/atualizarTeatro":
+                update(request,response);
+                break;
+            
+            default:
+                lista(request,response);
+        
+        }
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
+ 
+    public void lista(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        List<Teatro> lista = dao.getAll();
+        request.setAttribute("ListarTeatros", lista);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ListarTeatros.jsp");
+        dispatcher.forward(request,response); 
+    }
+    
+    
+    public void apresentaForm(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
+        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarTeatro.jsp");
+        dispatcher.forward(request,response);
+    }
+    public void apresentaFormEdicao(HttpServletRequest request,HttpServletResponse response) throws IOException,ServletException{
+        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarTeatro.jsp");
+        String CNPJ = request.getParameter("cnpj");
+        Teatro sala = dao.getFromCnpj(CNPJ);
+        request.setAttribute("sala",sala);
+        dispatcher.forward(request, response);
+    }
+    
+    public void insere(HttpServletRequest request,HttpServletResponse response) throws IOException{
+        String cnpj = request.getParameter("cnpj");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
+        String cidade = request.getParameter("cidade");
+        String nome = request.getParameter("nome");
+        
+        Teatro sala = new Teatro(cnpj,email,senha,nome,cidade);
+        dao.insert(sala);
+        response.sendRedirect("TeatroController");
+    }
+    
+    public void remove(HttpServletRequest request,HttpServletResponse response) throws IOException{
+        String cnpj = request.getParameter("CNPJ");
+        Teatro sala = dao.getFromCnpj(cnpj);
+        dao.delete(sala);
+        response.sendRedirect("TeatroController");
+    }
+    
+    public void update(HttpServletRequest request,HttpServletResponse response) throws IOException{
+        String cnpj = request.getParameter("cnpj");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
+        String cidade = request.getParameter("cidade");
+        String nome = request.getParameter("nome");
+        
+        Teatro sala = new Teatro(cnpj,email,senha,nome,cidade);
+        dao.update(sala);
+        response.sendRedirect("TeatroController");
+    }
+@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request,response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
+
+@Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }
+

@@ -26,6 +26,10 @@ public class Promocao {
     this.data = data;
     }
 
+    public Promocao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     /**
      * @return the nome
      */
@@ -95,5 +99,4 @@ public class Promocao {
     public void setData(Date data_sessao) {
         this.data = data_sessao;
     }
-    
 }

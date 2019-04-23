@@ -5,8 +5,11 @@
  */
 package br.ufscar.dc.dsw.controller;
 
+import br.ufscar.dc.dsw.dao.VendasDAO;
+import br.ufscar.dc.dsw.model.Vendas;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,72 +20,96 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author carlos
  */
-@WebServlet(name = "VendasController", urlPatterns = {"/VendasController"})
+@WebServlet(urlPatterns = {"/VendasController"})
 public class VendasController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    private VendasDAO dao;
+    
+    @Override
+    public void init(){
+    dao = new VendasDAO();
+    }
+    @Override
+     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet VendasController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet VendasController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String action = request.getServletPath();
+        switch(action){
+            case "/cadastro":
+                apresentaForm(request,response);
+                break;
+            case "/edicao":
+                apresentaFormEdicao(request,response);
+            case "/insercao":
+                insere(request,response);
+                break;
+            case "/remocao":
+                remove(request,response);
+                break;
+            case "/atualizacao":
+                update(request,response);
+                break;
+            default:
+                lista(request,response);
+                                      
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    public void lista(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        List<Vendas> lista = dao.getAll();
+        request.setAttribute("ListarSites", lista);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ListarSites.jsp");
+        dispatcher.forward(request,response); 
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    public void apresentaForm(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
+        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarSite.jsp");
+        dispatcher.forward(request,response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
+    public void apresentaFormEdicao(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+        String url = request.getParameter("url");
+        Vendas site = dao.getFromURL(url);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarSite.jsp");
+        request.setAttribute("site",site);
+        dispatcher.forward(request,response);       
+    }
+    
+   public void insere(HttpServletRequest request, HttpServletResponse response)throws IOException{
+       String email = request.getParameter("email");
+       String senha = request.getParameter("senha");
+       String url = request.getParameter("url");
+       String nome = request.getParameter("nome");
+       String telefone = request.getParameter("telefone");
+       
+       Vendas site = new Vendas(url,email,senha,nome,telefone);
+       dao.insert(site);
+       response.sendRedirect("VendasController");
+   }
+   public void remove(HttpServletRequest request, HttpServletResponse response)throws IOException{
+       String url = request.getParameter("url");
+       Vendas site = new Vendas();
+       site.setUrl(url);
+       dao.delete(site);
+       response.sendRedirect("VendasController");
+   }
+   
+   public void update(HttpServletRequest request, HttpServletResponse response)throws IOException{
+       String email = request.getParameter("email");
+       String senha = request.getParameter("senha");
+       String nome = request.getParameter("nome");
+       String url = request.getParameter("url");
+       String telefone = request.getParameter("telefone");
+       Vendas site = new Vendas(url,email,senha,nome,telefone);
+       dao.update(site);
+       response.sendRedirect("VendasController");
+   }
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
+
+  @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    doGet(request, response);
+    }
 }

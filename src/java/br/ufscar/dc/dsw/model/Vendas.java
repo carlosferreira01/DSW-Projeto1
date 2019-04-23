@@ -21,8 +21,8 @@ public class Vendas {
     
     public Vendas(String email, String senha, String url, String nome, String telefone) {
         this.email = email;
-        this.url = url;
         this.senha = senha;
+        this.url = url;
         this.nome = nome;
         this.telefone = telefone;
     }

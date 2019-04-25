@@ -33,19 +33,19 @@ public class VendasController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getServletPath();
         switch(action){
-            case "/cadastro":
+            case "/cadastrarSite":
                 apresentaForm(request,response);
                 break;
-            case "/edicao":
+            case "/editarSite":
                 apresentaFormEdicao(request,response);
-            case "/insercao":
+            case "/inserirSite":
                 insere(request,response);
                 break;
-            case "/remocao":
+            case "/removerSite":
                 remove(request,response);
                 break;
-            case "/atualizacao":
-                update(request,response);
+            case "/atualizarSite":
+                atualize(request,response);
                 break;
             default:
                 lista(request,response);
@@ -79,7 +79,7 @@ public class VendasController extends HttpServlet {
        String nome = request.getParameter("nome");
        String telefone = request.getParameter("telefone");
        
-       Vendas site = new Vendas(url,email,senha,nome,telefone);
+       Vendas site = new Vendas(email,senha,url,nome,telefone);
        dao.insert(site);
        response.sendRedirect("VendasController");
    }
@@ -91,13 +91,13 @@ public class VendasController extends HttpServlet {
        response.sendRedirect("VendasController");
    }
    
-   public void update(HttpServletRequest request, HttpServletResponse response)throws IOException{
+   public void atualize(HttpServletRequest request, HttpServletResponse response)throws IOException{
        String email = request.getParameter("email");
        String senha = request.getParameter("senha");
        String nome = request.getParameter("nome");
        String url = request.getParameter("url");
        String telefone = request.getParameter("telefone");
-       Vendas site = new Vendas(url,email,senha,nome,telefone);
+       Vendas site = new Vendas(email,senha,url,nome,telefone);
        dao.update(site);
        response.sendRedirect("VendasController");
    }

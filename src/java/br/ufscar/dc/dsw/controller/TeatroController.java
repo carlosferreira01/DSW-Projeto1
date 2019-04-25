@@ -25,7 +25,6 @@ public class TeatroController extends HttpServlet {
 private TeatroDAO dao = new TeatroDAO();
 
 
-@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getServletPath();
@@ -43,7 +42,7 @@ private TeatroDAO dao = new TeatroDAO();
                 remove(request,response);
                 break;
             case "/atualizarTeatro":
-                update(request,response);
+                atualize(request,response);
                 break;
             
             default:
@@ -67,8 +66,8 @@ private TeatroDAO dao = new TeatroDAO();
     public void apresentaFormEdicao(HttpServletRequest request,HttpServletResponse response) throws IOException,ServletException{
         RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarTeatro.jsp");
         String CNPJ = request.getParameter("cnpj");
-        Teatro sala = dao.getFromCnpj(CNPJ);
-        request.setAttribute("sala",sala);
+        Teatro teatro = dao.getFromCnpj(CNPJ);
+        request.setAttribute("teatro",teatro);
         dispatcher.forward(request, response);
     }
     
@@ -79,7 +78,7 @@ private TeatroDAO dao = new TeatroDAO();
         String cidade = request.getParameter("cidade");
         String nome = request.getParameter("nome");
         
-        Teatro sala = new Teatro(cnpj,email,senha,nome,cidade);
+        Teatro sala = new Teatro(email,senha,cnpj,nome,cidade);
         dao.insert(sala);
         response.sendRedirect("TeatroController");
     }
@@ -91,14 +90,14 @@ private TeatroDAO dao = new TeatroDAO();
         response.sendRedirect("TeatroController");
     }
     
-    public void update(HttpServletRequest request,HttpServletResponse response) throws IOException{
+    public void atualize(HttpServletRequest request,HttpServletResponse response) throws IOException{
         String cnpj = request.getParameter("cnpj");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         String cidade = request.getParameter("cidade");
         String nome = request.getParameter("nome");
         
-        Teatro sala = new Teatro(cnpj,email,senha,nome,cidade);
+        Teatro sala = new Teatro(email,senha,cnpj,nome,cidade);
         dao.update(sala);
         response.sendRedirect("TeatroController");
     }

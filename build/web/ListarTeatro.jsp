@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Venda de Ingressos</title>
+        <title>Sistema de Ingressos</title>
     </head>
     <body>
         
@@ -43,7 +43,7 @@
     </div>
         
     <center>    
-        <br><a href="CadastroTeatro.jsp">Cadastrar nova sala</a>
+        <br><a href="CadastrarTeatro.jsp">Cadastrar nova sala</a>
     </center>
     </body>
 </html>

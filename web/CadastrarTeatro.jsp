@@ -9,36 +9,35 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Venda de Ingressos</title>
+        <title>Sistema de Ingressos</title>
     </head>
     <body>
     <center>
         <h1>Salas de Teatro</h1>
     </center>
     <div align="center">
-        <c:if test="${sala != null}"> 
-            <form action="atualizacaoTeatro" method="post">
+        <c:if test="${teatro != null}"> 
+            <form action="atualizarTeatro.jsp" method="post">
             </c:if>
-            <c:if test="${sala == null}">
-                <form action="insercaoTeatro" method="post">
+            <c:if test="${teatro == null}">
+                <form action="inserirTeatro" method="post">
                 </c:if>
                 <form name="form">
                     <table border="1" cellpadding="5">
                         <caption>
                             <h2>
-                                <c:if test="${sala != null}">
-                                    Edição
-                                    <input type="hidden" name="cnpj" value="<c:out value='${sala.cnpj}' />" 
+                                <c:if test="${teatro != null}">
+                                    Edição<input type="hidden" name="cnpj" value="<c:out value='${teatro.cnpj}' />" 
                                            />
                                 </c:if>
-                                <c:if test="${sala == null}">
+                                <c:if test="${teatro == null}">
                                     Cadastro    
                                     <tr>
                                         <th>CNPJ: </th>
                                         <td>
                                             <input type="text" name="cnpj" size="45" 
                                                    placeholder="xx.xxx.xxx/xxxx-xx" required
-                                                   value= "<c:out value='${sala.CNPJ}' />"       
+                                                   value= "<c:out value='${teatro.CNPJ}' />"       
                                                    />
                                         </td>
                                     </tr>
@@ -49,7 +48,7 @@
                             <th>Nome: </th>
                             <td>
                                 <input type="text" name="nome" size="45" required
-                                       value= "<c:out value='${sala.nome}' />"
+                                       value= "<c:out value='${teatro.nome}' />"
                                        />
                             </td><br>
                         </tr>

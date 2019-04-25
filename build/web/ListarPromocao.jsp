@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Venda de Ingressos</title>
+        <title>Sistema de Ingressos</title>
     </head>
     <body>
         
@@ -47,7 +47,7 @@
     </div>
         
     <center>    
-        <br><a href="CadastroPromocao.jsp">Cadastrar nova promoção</a>
+        <br><a href="CadastrarPromocao.jsp">Cadastrar nova promoção</a>
     </center>
     </body>
 </html>

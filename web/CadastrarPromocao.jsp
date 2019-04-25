@@ -17,10 +17,10 @@
     </center>
     <div align="center">
         <c:if test="${promocao != null}"> 
-            <form action="atualizacaoPromocao" method="post">
+            <form action="atualizarPromocao" method="post">
             </c:if>
             <c:if test="${promocao == null}">
-                <form action="insercaoPromocao" method="post">
+                <form action="inserirPromocao" method="post">
                 </c:if>
                 <form name="form">
                     <table border="1" cellpadding="5">

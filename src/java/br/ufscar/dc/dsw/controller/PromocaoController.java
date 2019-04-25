@@ -14,8 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,20 +27,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/PromocaoController"})
 public class PromocaoController extends HttpServlet {
-    private PromocaoDAO dao = new PromocaoDAO();
+    private final PromocaoDAO dao = new PromocaoDAO();
     
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String action = request.getServletPath();
         try {
-             String action = request.getServletPath();
              switch(action){
                  case "/inserirPromocao":
                      insere(request,response);
                      break;
                  case "/atualizarPromocao":
-                     update(request,response);
+                     atualize(request,response);
                      break;
                  case "/removerPromocao":
                      remove(request,response);
@@ -61,8 +58,8 @@ public class PromocaoController extends HttpServlet {
                      
              }
          
-        }catch(SQLException ex) {
-             Logger.getLogger(PromocaoController.class.getName()).log(Level.SEVERE, null, ex);
+            }catch(SQLException | IOException | ParseException | ServletException e) {
+             throw new ServletException(e);
             }
     }
 
@@ -83,43 +80,24 @@ public class PromocaoController extends HttpServlet {
         request.setAttribute("promocao",promocao);
         dispatcher.forward(request,response);
         
-      //imcompleto  
+      //incompleto  
     }
     
     public void insere(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException, SQLException, ServletException{
+        request.setCharacterEncoding("UTF-8");
         String url = request.getParameter("url");
         String cnpj = request.getParameter("cnpj");
         String nome = request.getParameter("nome");
-        float preco = parseFloat(request.getParameter("preco"));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String data = request.getParameter("data");
-        data += " " + request.getParameter("data");
-        Date horario = dateFormat.parse(data);
-        if(dao.checkValidity(url, cnpj, horario)){
-        Promocao promocao = new Promocao(url,cnpj,nome,preco,horario);
-        dao.insert(promocao);
-        response.sendRedirect("PromocaoController");
-        }
-        else{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarPromocao.jsp");
-        request.setAttribute("mensagem_insercao",true);
-        dispatcher.forward(request, response);
-        }
-    }
-    
-    public void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
-        String url = request.getParameter("url");
-        String cnpj = request.getParameter("cnpj");
-        String nome = request.getParameter("nome");
-        float preco = parseFloat(request.getParameter("preco"));
+        float preco = Float.parseFloat(request.getParameter("preco"));
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         String hora = request.getParameter("data");
-        Date data = dateFormat.parse(hora);   
-        Promocao promocao = new Promocao(url,cnpj,nome,preco,data);
-        dao.update(promocao);
+        Date data = dateFormat.parse(hora);  
+        Promocao promocao = new Promocao(nome, cnpj, url, preco, data);
+        dao.insert(promocao);
         response.sendRedirect("PromocaoController");
     }
-    public void remove(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
+    
+        public void remove(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
         //incompleto
         String url = request.getParameter("url");
         String cnpj = request.getParameter("cnpj");
@@ -135,6 +113,29 @@ public class PromocaoController extends HttpServlet {
         response.sendRedirect("PromocaoController");
 
     }
+    
+    public void atualize(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
+        request.setCharacterEncoding("UTF-8");
+        String url = request.getParameter("url");
+        String cnpj = request.getParameter("cnpj");
+        String nome = request.getParameter("nome");
+        float preco = parseFloat(request.getParameter("preco"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+        String hora = request.getParameter("data");
+        Date data = dateFormat.parse(hora);   
+        Promocao promocao = new Promocao(nome,cnpj,url,preco,data);
+        dao.update(promocao);
+        response.sendRedirect("PromocaoController");
+    }
+
+    
+    public void listTeatro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        String cnpj = request.getParameter("cnpj");
+        List<Promocao> lista = dao.getFromCnpj(cnpj);
+        request.setAttribute("ListarPromocaoTeatro", lista);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ListarPromocaoTeatro.jsp");
+        dispatcher.forward(request, response);
+    }
    
     public void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         //incompleto
@@ -144,13 +145,7 @@ public class PromocaoController extends HttpServlet {
         dispatcher.forward(request,response);
     }
    
-   public void listTeatro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String cnpj = request.getParameter("cnpj");
-        List<Promocao> lista = dao.getFromCnpj(cnpj);
-        request.setAttribute("ListarPromocaoFeitoPorTeatro", lista);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ListarPromocaoFeitoPorTeatro.jsp");
-        dispatcher.forward(request, response);
-    }
+
    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

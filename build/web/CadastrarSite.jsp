@@ -9,18 +9,19 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Venda de Ingressos</title>
+        <title>Sistema de Ingressos</title>
     </head>
     <body>
     <center>
         <h1>Sites de Vendas</h1>
     </center>
     <div align="center">
+        <c: set var = "site" value = null />
         <c:if test="${site != null}"> 
-            <form action="atualizacao" method="post">
+            <form action="atualizarSite" method="post">
             </c:if>
             <c:if test="${site == null}">
-                <form action="insercao" method="post">
+                <form action="inserirSite" method="post">
                 </c:if>
                 <form name="form">
                     <table border="1" cellpadding="5">
@@ -32,7 +33,24 @@
                                            />
                                 </c:if>
                                 <c:if test="${site == null}">
-                                    Cadastro    
+                                    Cadastro   
+                                <tr>
+                                    <th>E-mail: </th>
+                                    <td>
+                                        <input type="text" name="email" size="45" required
+                                               value= "<c:out value='${site.email}' />"
+                                               />
+                                    </td>
+                                </tr>
+                                </c:if>
+                                <tr>
+                                    <th>Senha: </th>
+                                    <td>
+                                        <input type="password" name="senha" size="45" required
+                                               value= "<c:out value='${site.senha}' />"       
+                                               />
+                                    </td>    
+                                </tr>
                                     <tr>
                                         <th>URL: </th>
                                         <td>
@@ -41,42 +59,25 @@
                                                    />
                                         </td>
                                     </tr>
-                                </c:if>
-                            </h2>
-                        </caption>
-                        <tr>
-                            <th>Nome: </th>
-                            <td>
-                                <input type="text" name="nome" size="45" required
-                                       value= "<c:out value='${site.nome}' />"
-                                       />
-                            </td><br>
-                        </tr>
-                        <tr>
-                            <th>E-mail: </th>
-                            <td>
-                                <input type="text" name="email" size="45" required
-                                       value= "<c:out value='${site.email}' />"
-                                       />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Senha: </th>
-                            <td>
-                                <input type="password" name="senha" size="45" required
-                                       value= "<c:out value='${site.senha}' />"       
-                                       />
-                            </td>    
-                        </tr>
-                        <tr>
-                            <th>Telefone: </th>
-                            <td>
-                                <input type="number" name="telefone" size="45"
-                                       placeholder="xxxxx-xxxx" required
-                                       value= "<c:out value='${site.telefone}' />"       
-                                       />
-                            </td>
-                        </tr>
+                                <tr>
+                                    <th>Nome: </th>
+                                    <td>
+                                        <input type="text" name="nome" size="45" required
+                                               value= "<c:out value='${site.nome}' />"
+                                               />
+                                    </td><br>
+                                </tr>
+
+
+                                <tr>
+                                    <th>Telefone: </th>
+                                    <td>
+                                        <input type="number" name="telefone" size="45"
+                                               placeholder="xxxxx-xxxx" required
+                                               value= "<c:out value='${site.telefone}' />"       
+                                               />
+                                    </td>
+                                </tr>
                     </table>  
                     <br>
                     <tr>

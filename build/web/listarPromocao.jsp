@@ -47,7 +47,7 @@
     </div>
         
     <center>    
-        <br><a href="CadastrarPromocao.jsp">Cadastrar nova promoção</a>
+        <br><a href="cadastrarPromocao.jsp">Cadastrar nova promoção</a>
     </center>
     </body>
 </html>

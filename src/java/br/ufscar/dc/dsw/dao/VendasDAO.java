@@ -27,20 +27,19 @@ public class VendasDAO {
         return DriverManager.getConnection("jdbc:derby://localhost:1527/VendaIngressoBD", "root", "root");
     }
 
-    public void insert(Vendas venda) {
-        String sql = "INSERT INTO Vendas "
-                + "(email, senha, url, nome, telefone) "
-                + "VALUES (?, ?, ?, ?, ?)";
+    public void insert(Vendas site) {
+        String sql = "INSERT INTO Vendas (email, senha, url, nome, telefone) VALUES (?, ?, ?, ?, ?)";
+
 
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            statement.setString(1, venda.getEmail());
-            statement.setString(2, venda.getSenha());
-            statement.setString(3, venda.getUrl());
-            statement.setString(4, venda.getNome());
-            statement.setString(5, venda.getTelefone());
+            statement.setString(1, site.getEmail());
+            statement.setString(2, site.getSenha());
+            statement.setString(3, site.getUrl());
+            statement.setString(4, site.getNome());
+            statement.setString(5, site.getTelefone());
             statement.executeUpdate();
             statement.close();
             conn.close();

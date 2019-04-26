@@ -43,7 +43,7 @@
     </div>
         
     <center>    
-        <br><a href="CadastrarSite.jsp">Cadastrar novo site</a>
+        <br><a href="cadastrarSite.jsp">Cadastrar novo site</a>
     </center>
     </body>
 </html>

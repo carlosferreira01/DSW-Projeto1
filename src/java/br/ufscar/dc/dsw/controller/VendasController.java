@@ -20,16 +20,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author carlos
  */
-@WebServlet(urlPatterns = {"/VendasController"})
+@WebServlet(name = "VendasController", urlPatterns = {"/VendasController"})
 public class VendasController extends HttpServlet {
-    private VendasDAO dao;
+private VendasDAO dao = new VendasDAO();
     
-    @Override
-    public void init(){
-    dao = new VendasDAO();
-    }
-    @Override
-     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getServletPath();
         switch(action){
@@ -65,9 +61,9 @@ public class VendasController extends HttpServlet {
     }
     
     public void apresentaFormEdicao(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarSite.jsp");
         String url = request.getParameter("url");
         Vendas site = dao.getFromURL(url);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarSite.jsp");
         request.setAttribute("site",site);
         dispatcher.forward(request,response);       
     }
@@ -79,8 +75,8 @@ public class VendasController extends HttpServlet {
        String nome = request.getParameter("nome");
        String telefone = request.getParameter("telefone");
        
-       Vendas site = new Vendas(email,senha,url,nome,telefone);
-       dao.insert(site);
+       Vendas sites = new Vendas(email,senha,url,nome,telefone);
+       dao.insert(sites);
        response.sendRedirect("listarSite.jsp");
    }
    public void remove(HttpServletRequest request, HttpServletResponse response)throws IOException{

@@ -25,12 +25,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author carlos
  */
-@WebServlet(urlPatterns = {"/PromocaoController"})
+@WebServlet(name = "PromocaoController", urlPatterns = {"/PromocaoController"})
 public class PromocaoController extends HttpServlet {
     private final PromocaoDAO dao = new PromocaoDAO();
     
     
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String action = request.getServletPath();
         try {
@@ -100,7 +99,7 @@ public class PromocaoController extends HttpServlet {
  
     }
     
-        public void remove(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
+    public void remove(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
         //incompleto
         String url = request.getParameter("url");
         String cnpj = request.getParameter("cnpj");

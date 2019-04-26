@@ -23,16 +23,16 @@
                 <th>Ações</th>
           
             </tr>
-            <c:forEach var="sala" items="${requestScope.ListaTeatros}">
+            <c:forEach var="teatro" items="${listarTeatro}">
                 <tr>
-                    <td><c:out value="${sala.cnpj}" /></td>
-                    <td><c:out value="${sala.nome}" /></td>
-                    <td><c:out value="${sala.cidade}" /></td>
+                    <td><c:out value="${teatro.cnpj}" /></td>
+                    <td><c:out value="${teatro.nome}" /></td>
+                    <td><c:out value="${teatro.cidade}" /></td>
                   
                     <td>
-                        <a href="edicaoTeatro?CNPJ=<c:out value='${sala.cnpj}' />">Edição</a>
+                        <a href="edicaoTeatro?CNPJ=<c:out value='${teatro.cnpj}' />">Edição</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="remocaoTeatro?CNPJ=<c:out value='${sala.cnpj}' />" 
+                        <a href="remocaoTeatro?CNPJ=<c:out value='${teatro.cnpj}' />" 
                            onclick="return confirm('Tem certeza de que deseja excluir este item?');">
                             Remoção
                         </a>                    	
@@ -43,7 +43,7 @@
     </div>
         
     <center>    
-        <br><a href="CadastrarTeatro.jsp">Cadastrar nova sala</a>
+        <br><a href="cadastrarTeatro.jsp">Cadastrar nova sala</a>
     </center>
     </body>
 </html>

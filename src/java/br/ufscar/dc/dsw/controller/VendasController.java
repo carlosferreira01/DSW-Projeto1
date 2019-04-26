@@ -55,19 +55,19 @@ public class VendasController extends HttpServlet {
 
     public void lista(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         List<Vendas> lista = dao.getAll();
-        request.setAttribute("ListarSites", lista);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ListarSites.jsp");
+        request.setAttribute("listarSites", lista);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listarSites.jsp");
         dispatcher.forward(request,response); 
     }
     public void apresentaForm(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarSite.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarSite.jsp");
         dispatcher.forward(request,response);
     }
     
     public void apresentaFormEdicao(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
         String url = request.getParameter("url");
         Vendas site = dao.getFromURL(url);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarSite.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarSite.jsp");
         request.setAttribute("site",site);
         dispatcher.forward(request,response);       
     }

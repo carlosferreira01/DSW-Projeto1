@@ -51,20 +51,21 @@ private TeatroDAO dao = new TeatroDAO();
         }
     }
  
-    public void lista(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    public void lista(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException{
         List<Teatro> lista = dao.getAll();
-        request.setAttribute("ListarTeatros", lista);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ListarTeatros.jsp");
+        request.setAttribute("listarTeatro", lista);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request,response); 
     }
     
     
     public void apresentaForm(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarTeatro.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarTeatro.jsp");
         dispatcher.forward(request,response);
     }
     public void apresentaFormEdicao(HttpServletRequest request,HttpServletResponse response) throws IOException,ServletException{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarTeatro.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarTeatro.jsp");
         String CNPJ = request.getParameter("cnpj");
         Teatro teatro = dao.getFromCnpj(CNPJ);
         request.setAttribute("teatro",teatro);
@@ -80,7 +81,7 @@ private TeatroDAO dao = new TeatroDAO();
         
         Teatro sala = new Teatro(email,senha,cnpj,nome,cidade);
         dao.insert(sala);
-        response.sendRedirect("TeatroController");
+        response.sendRedirect("listarTeatro.jsp");
     }
     
     public void remove(HttpServletRequest request,HttpServletResponse response) throws IOException{

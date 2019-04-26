@@ -64,13 +64,13 @@ public class PromocaoController extends HttpServlet {
     }
 
     public void apresentaForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarPromocao.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarPromocao.jsp");
         dispatcher.forward(request, response);
     
     }
     
     public void apresentaFormEdicao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CadastrarPromocao.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarPromocao.jsp");
         String url = request.getParameter("url");
         String CNPJ = request.getParameter("cnpj");
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
@@ -140,8 +140,8 @@ public class PromocaoController extends HttpServlet {
     public void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         //incompleto
         List<Promocao> lista = dao.getAll();
-        request.setAttribute("ListaPromocao", lista);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ListarPromocao.jsp");
+        request.setAttribute("listaPromocao", lista);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listarPromocao.jsp");
         dispatcher.forward(request,response);
     }
    

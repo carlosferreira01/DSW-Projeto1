@@ -81,14 +81,14 @@ public class VendasController extends HttpServlet {
        
        Vendas site = new Vendas(email,senha,url,nome,telefone);
        dao.insert(site);
-       response.sendRedirect("VendasController");
+       response.sendRedirect("listarSite.jsp");
    }
    public void remove(HttpServletRequest request, HttpServletResponse response)throws IOException{
        String url = request.getParameter("url");
        Vendas site = new Vendas();
        site.setUrl(url);
        dao.delete(site);
-       response.sendRedirect("VendasController");
+       response.sendRedirect("listarSite.jsp");
    }
    
    public void atualize(HttpServletRequest request, HttpServletResponse response)throws IOException{
@@ -99,7 +99,7 @@ public class VendasController extends HttpServlet {
        String telefone = request.getParameter("telefone");
        Vendas site = new Vendas(email,senha,url,nome,telefone);
        dao.update(site);
-       response.sendRedirect("VendasController");
+       response.sendRedirect("listarSite.jsp");
    }
     @Override
     public String getServletInfo() {

@@ -25,21 +25,47 @@ and open the template in the editor.
     
     
     
-        <servlet>
-        <servlet-name>SiteController</servlet-name>
-        <servlet-class>br.ufscar.dc.dsw.controller.SiteController</servlet-class>
+    <servlet>
+        <servlet-name>VendasController</servlet-name>
+        <servlet-class>br.ufscar.dc.dsw.controller.VendasController</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>SiteController</servlet-name>
-        <url-pattern>/cadastrarSite</url-pattern>
+        <servlet-name>VendasController</servlet-name>
+        <url-pattern>/inserirVendas</url-pattern>
+        <url-pattern>/removerVendas</url-pattern>
+        <url-pattern>/atualizarVendas</url-pattern>
+        <url-pattern>/cadastrarVendas</url-pattern>
+        <url-pattern>/editarVendas</url-pattern>
     </servlet-mapping>
     
-    <session-config>
+        <servlet>
+        <servlet-name>PromocaoController</servlet-name>
+        <servlet-class>br.ufscar.dc.dsw.controller.PromocaoController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>PromocaoController</servlet-name>
+        <url-pattern>/inserirPromocao</url-pattern>
+        <url-pattern>/removerPromocao</url-pattern>
+        <url-pattern>/atualizarPromocao</url-pattern>
+        <url-pattern>/cadastrarPromocao</url-pattern>
+        <url-pattern>/editarPromocao</url-pattern>
+    </servlet-mapping>
+    
+
+    
+    <error-page>
+        <exception-type>
+            javax.servlet.ServletException
+        </exception-type >
+        <location>/erro.jsp</location>
+    </error-page>
+    
+      <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-  
 </web-app>
 

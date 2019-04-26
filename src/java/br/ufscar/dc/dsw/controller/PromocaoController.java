@@ -47,7 +47,7 @@ public class PromocaoController extends HttpServlet {
                  case "/cadastrarPromocao":
                      apresentaForm(request,response);
                      break;
-                 case "/editaroPromocao":
+                 case "/editarPromocao":
                      apresentaFormEdicao(request,response);
                      break;
                  case "/listarTeatro":
@@ -88,13 +88,16 @@ public class PromocaoController extends HttpServlet {
         String url = request.getParameter("url");
         String cnpj = request.getParameter("cnpj");
         String nome = request.getParameter("nome");
-        float preco = Float.parseFloat(request.getParameter("preco"));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
-        String hora = request.getParameter("data");
-        Date data = dateFormat.parse(hora);  
-        Promocao promocao = new Promocao(nome, cnpj, url, preco, data);
+        float preco = parseFloat(request.getParameter("preco"));
+       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String hor = request.getParameter("data");
+        hor += " " + request.getParameter("horario");
+        Date horario = dateFormat.parse(hor);
+        Promocao promocao = new Promocao(nome,cnpj,url,preco,horario);
         dao.insert(promocao);
-        response.sendRedirect("PromocaoController");
+        
+        response.sendRedirect("listarPromocao.jsp");
+ 
     }
     
         public void remove(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
@@ -110,7 +113,7 @@ public class PromocaoController extends HttpServlet {
         promocao.setUrl(url);
 
         dao.delete(promocao);
-        response.sendRedirect("PromocaoController");
+        response.sendRedirect("listarPromocao.jsp");
 
     }
     
@@ -125,7 +128,7 @@ public class PromocaoController extends HttpServlet {
         Date data = dateFormat.parse(hora);   
         Promocao promocao = new Promocao(nome,cnpj,url,preco,data);
         dao.update(promocao);
-        response.sendRedirect("PromocaoController");
+        response.sendRedirect("listarPromocao.jsp");
     }
 
     

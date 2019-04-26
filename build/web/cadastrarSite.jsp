@@ -4,8 +4,9 @@
     Author     : carlos
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,7 +17,6 @@
         <h1>Sites de Vendas</h1>
     </center>
     <div align="center">
-        <c: set var = "site" value = null />
         <c:if test="${site != null}"> 
             <form action="atualizarSite" method="post">
             </c:if>
@@ -72,7 +72,7 @@
                                 <tr>
                                     <th>Telefone: </th>
                                     <td>
-                                        <input type="number" name="telefone" size="45"
+                                        <input type="text" name="telefone" size="45"
                                                placeholder="xxxxx-xxxx" required
                                                value= "<c:out value='${site.telefone}' />"       
                                                />

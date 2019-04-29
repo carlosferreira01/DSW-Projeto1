@@ -1,0 +1,29 @@
+CREATE TABLE Vendas(
+    url   varchar(100) PRIMARY KEY,
+    email varchar(50) UNIQUE,
+    senha varchar(50),
+    nome  varchar(50),
+    telefone varchar(11)
+);
+
+CREATE TABLE Teatro(
+    cnpj varchar(14) PRIMARY KEY,
+    email varchar(50) UNIQUE,
+    senha varchar(50),
+    nome  varchar(50),
+    cidade varchar(50)
+
+); 
+
+CREATE TABLE Promocao(
+    url varchar(100),
+    cnpj varchar(14),
+    nome varchar(50),
+    preco float,
+    horario timestamp,
+
+CONSTRAINT pk_Promocao PRIMARY KEY(url,cnpj,horario),
+CONSTRAINT fk1_Promocao FOREIGN KEY(cnpj) REFERENCES SalaTeatro(cnpj),
+CONSTRAINT fk2_Promocao FOREIGN KEY(url) REFERENCES SiteVendas(url)
+
+);
